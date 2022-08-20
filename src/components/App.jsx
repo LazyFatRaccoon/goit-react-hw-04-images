@@ -3,7 +3,7 @@ import SearchBar from './SearchBar'
 import ImageGallery from './ImageGallery'
 import LoadMoreBtn from './LoadMoreBtn'
 import Loader from './Loader'
-import {ThreeDots} from 'react-loader-spinner'
+
 
 
 
