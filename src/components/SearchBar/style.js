@@ -1,41 +1,50 @@
-import styled from '@emotion/styled'
-import { BsSearch} from 'react-icons/bs';
-
+import styled from '@emotion/styled';
+import { BsSearch } from 'react-icons/bs';
+import { Field } from 'formik';
 
 export const SearchBarPanel = styled.header`
-    
-    background-color:#5e25a8;
-    padding: 1em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    
-    //position: fixed;
-` 
+  background-color:  ${props=>props.theme.colors.accentColor};
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  align-items: center;
+`;
 export const Container = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-`
-export const Input = styled.input`
-    font-size: 40px;
-    padding-left: 60px;
+  display: flex;
+  align-items: center;
+`;
 
-    
-`
-export const SearchBtn = styled.button`
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    
-`
 export const SearchIcon = styled(BsSearch)`
-   
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: ${props=>props.theme.sizes.medium}px;
+  height: ${props=>props.theme.sizes.medium}px;  
+  padding: 5px 10px;
 
-`
+  &:hover {
+    fill: red;
+  }
+`;
+export const Input = styled.input`
+  font-size: ${props=>props.theme.sizes.medium}px;
+  padding-left: ${props=>props.theme.sizes.medium*1.5}px;
+  
+`;
+export const SearchBtn = styled.button`
+  border: none;
+  background-color: transparent;
+`;
 
+export const Label = styled.label`
+  position: relative;
+`;
 
-
-
-
+export const StyledField = styled(Field)`
+  font-size: ${props=>props.theme.sizes.medium}px;
+  
+`;
+export const Button = styled.button`
+font-size: ${props=>props.theme.sizes.medium}px;
+`;

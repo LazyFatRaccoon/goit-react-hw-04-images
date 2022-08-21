@@ -1,9 +1,8 @@
 import ImageGalleryItem from '../ImageGalleryItem';
-import { Gallery } from './style';
-// import Lightbox from 'react-image-lightbox';
-// import 'react-image-lightbox/style.css';
+import { Gallery, ScrollToBottomStyled } from './style';
 import { Component } from 'react';
-import Modal from './Modal'
+import Modal from './Modal';
+import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
   state = {
@@ -18,28 +17,44 @@ class ImageGallery extends Component {
 
   onCloseModal = () => {
     this.setState({ modalIsOpen: false });
-  }
+  };
 
   render() {
     const { images } = this.props;
 
     return (
-      <Gallery>
-        {this.state.modalIsOpen && <Modal images={images} imageIdx={this.state.imageIdx} onCloseModal={this.onCloseModal}/>}
-
-        {images.map(image => {
-          return (
-            <ImageGalleryItem
-              key={image.id}
-              id={image.id}
-              onImageClick={this.onImageClick}
-              imageUrl={image.webformatURL}
+      <ScrollToBottomStyled>
+        <Gallery>
+          {this.state.modalIsOpen && (
+            <Modal
+              images={images}
+              imageIdx={this.state.imageIdx}
+              onCloseModal={this.onCloseModal}
             />
-          );
-        })}
-      </Gallery>
+          )}
+
+          {images.map(image => {
+            return (
+              <ImageGalleryItem
+                key={image.id}
+                id={image.id}
+                onImageClick={this.onImageClick}
+                imageUrl={image.webformatURL}
+              />
+            );
+          })}
+        </Gallery>
+      </ScrollToBottomStyled>
     );
   }
 }
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    })
+  ),
+};
 
 export default ImageGallery;
