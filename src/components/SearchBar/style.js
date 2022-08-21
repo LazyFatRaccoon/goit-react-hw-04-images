@@ -3,6 +3,9 @@ import { BsSearch } from 'react-icons/bs';
 import { Field } from 'formik';
 
 export const SearchBarPanel = styled.header`
+  position: fixed;
+  top: 0;
+  width:100%;
   background-color:  ${props=>props.theme.colors.accentColor};
   padding: 1em;
   display: flex;

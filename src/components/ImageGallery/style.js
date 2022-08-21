@@ -9,6 +9,7 @@ export const Gallery = styled.ul`
 
   padding: 20px;
   margin: 0 auto;
+  margin-top: ${props=>props.theme.sizes.medium*2}px;
 
   list-style-type: none;
 `;
