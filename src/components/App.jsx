@@ -19,6 +19,7 @@ class App extends Component {
     isLoading: false,
     lightTheme: false,
   }
+  
 
   changeQuery = (query) => {
     this.setState({query})
@@ -64,7 +65,7 @@ class App extends Component {
         <SearchBar currentTheme={this.state.lightTheme} onThemeChange={this.onThemeChange} onInputChange={this.changeQuery}/>
         <ImageGallery images={this.state.images}/>
         {this.state.isLoading && <Loader/>}
-        {this.state.images.length > 0 && !this.state.isLoading ?  <LoadMoreBtn onClick={this.loadMore}/> :  ''}
+        {this.state.images.length > 0 && !this.state.isLoading ?  <LoadMoreBtn onClick={this.loadMore} /> :  ''}
        
       
       </>

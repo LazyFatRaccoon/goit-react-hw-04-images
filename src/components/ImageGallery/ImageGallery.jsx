@@ -3,12 +3,15 @@ import { Gallery, ScrollToBottomStyled } from './style';
 import { Component } from 'react';
 import Modal from './Modal';
 import PropTypes from 'prop-types';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 class ImageGallery extends Component {
   state = {
     imageIdx: null,
     modalIsOpen: false,
   };
+
+ 
 
   onImageClick = imageId => {
     const imageIdx = this.props.images.findIndex(image => image.id === imageId);
@@ -24,7 +27,7 @@ class ImageGallery extends Component {
 
     return (
       <ScrollToBottomStyled behavior={'auto'}>
-        <Gallery>
+        <Gallery scrollToBottom={ScrollToBottom.scrollToBottom}>
           {this.state.modalIsOpen && (
             <Modal
               images={images}
