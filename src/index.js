@@ -37,8 +37,8 @@ let theme = {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ThemeProvider theme={theme}>
     {/* <Global styles={css`.body {backgroundColor: ${props=>props.theme.colors.darkTheme.mainBackground}}`}/> */}
-    {/* <React.StrictMode> */}
+     <React.StrictMode> 
       <App/>
-    {/* </React.StrictMode> */}
+     </React.StrictMode> 
   </ThemeProvider>
 );

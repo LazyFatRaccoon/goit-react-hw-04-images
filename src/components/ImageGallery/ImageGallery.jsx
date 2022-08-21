@@ -23,7 +23,7 @@ class ImageGallery extends Component {
     const { images } = this.props;
 
     return (
-      <ScrollToBottomStyled>
+      <ScrollToBottomStyled behavior={'auto'}>
         <Gallery>
           {this.state.modalIsOpen && (
             <Modal
