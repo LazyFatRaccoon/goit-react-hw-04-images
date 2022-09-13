@@ -11,8 +11,8 @@ import { Formik, Form, ErrorMessage } from 'formik';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import ToggleButton from "react-theme-toggle-button";
-// import "react-theme-toggle-button/dist/index.css";
+import ToggleButton from "react-theme-toggle-button";
+import "react-theme-toggle-button/dist/index.css";
 
 
 
@@ -27,7 +27,7 @@ const SearchBar = ({ onInputChange, onThemeChange, currentTheme }) => {
 
   return (
     <SearchBarPanel>
-      {/* <ToggleButton  onChange={()=>onThemeChange()}/> */}
+      { <ToggleButton  onChange={()=>onThemeChange()}/> }
       <Container>
         <Formik
           initialValues={{ search: '' }}

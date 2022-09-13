@@ -6,7 +6,7 @@ export const SearchBarPanel = styled.header`
   position: fixed;
   top: 0;
   width:100%;
-  background-color:  ${props=>props.theme.colors.accentColor};
+  background-color:  ${props=>props.theme.accentColor};
   padding: 1em;
   display: flex;
   justify-content: center;
@@ -33,7 +33,8 @@ export const SearchIcon = styled(BsSearch)`
 export const Input = styled.input`
   font-size: ${props=>props.theme.sizes.medium}px;
   padding-left: ${props=>props.theme.sizes.medium*1.5}px;
-  
+  color: ${props=>props.theme.inputText};
+  background-color: ${props=>props.theme.inputBackground};
 `;
 export const SearchBtn = styled.button`
   border: none;
@@ -46,7 +47,8 @@ export const Label = styled.label`
 
 export const StyledField = styled(Field)`
   font-size: ${props=>props.theme.sizes.medium}px;
-  
+  color: ${props=>props.theme.inputText};
+  background-color: ${props=>props.theme.inputBackground}; 
 `;
 export const Button = styled.button`
 font-size: ${props=>props.theme.sizes.medium}px;
