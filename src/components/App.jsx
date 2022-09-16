@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import ImageGallery from './ImageGallery';
 import LoadMoreBtn from './LoadMoreBtn';
 import Loader from './Loader';
-import { ThemeProvider} from "@emotion/react"
-import {Div} from './style'
+import { ThemeProvider } from '@emotion/react';
+import { Div } from './style';
 
 import * as API from '../services/api';
 
@@ -24,7 +24,6 @@ const themeLight = {
     width: 600,
     height: 400,
   },
-  
 };
 
 const themeDark = {
@@ -41,81 +40,104 @@ const themeDark = {
     width: 600,
     height: 400,
   },
-  
 };
 
-class App extends Component {
-  state = {
-    query: '',
-    page: 1,
-    images: [],
-    isLoading: false,
-    lightTheme: true,
-    total: 0,
+// function usePrevious(value) {
+//   const ref = useRef();
+//   useEffect(() => {
+//     ref.current = value;
+//   });
+//   return ref.current;
+// }
+
+function App() {
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(0);
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [lightTheme, setLightTheme] = useState(true);
+  const [total, setTotal] = useState(0);
+
+  const changeQuery = query => {
+    setQuery(query);
   };
 
-  changeQuery = query => {
-    this.setState({ query });
-  };
-
-  takeQuery = async query => {
+  const takeQuery = async query => {
     try {
-      await this.setState({ isLoading: true });
-      const images = await API.getImages(query, this.state.page, PER_PAGE);
-      this.setState(state => ({ images: [...state.images, ...images.hits] }));
-      this.setState({ total: images.total });
+      console.log(3);
+      setIsLoading(true);
+      const images = await API.getImages(
+        query,
+        page === 0 ? 1 : page,
+        PER_PAGE
+      );
+      console.log(images);
+      setImages(prevState => [...prevState, ...images.hits]);
+      setTotal(images.total);
     } catch (err) {
       console.log(err);
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
   };
 
-  loadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+  const loadMore = () => {
+    console.log('load button pushed');
+    setPage(prevState => (prevState === 0 ? 2 : prevState + 1));
   };
 
-  onThemeChange = () => {
-    this.setState(prevState => ({ lightTheme: !prevState.lightTheme }));
+  const onThemeChange = () => {
+    setLightTheme(prevState => !prevState);
   };
 
-  async componentDidUpdate(_, prevState) {
-    //console.log(`1, ${prevState.page},  ${this.state.page}`)
-    if (prevState.page + 1 === this.state.page) {
-      this.takeQuery(this.state.query);
+  const firstUpdatePage = useRef(true);
+  const firstUpdateQuery = useRef(true);
+  // const prevPage = usePrevious(page);
+  // const prevQuery = usePrevious(query);
 
+  useEffect(() => {
+    if (firstUpdateQuery.current) {
+      firstUpdateQuery.current = false;
       return;
     }
-    if (prevState.query !== this.state.query) {
-      await this.setState({ page: 1, images: [] });
-      this.takeQuery(this.state.query);
-    }
-  }
 
-  render() {
-    return (
-      <>
-      <ThemeProvider theme={this.state.lightTheme ? themeLight : themeDark}>
+    window.scrollTo({
+      top: 0,
+    });
+
+    if (page === 1) setPage(0);
+    else setPage(1);
+    setImages([]);
+  }, [query]);
+
+  useEffect(() => {
+    if (firstUpdatePage.current) {
+      firstUpdatePage.current = false;
+      return;
+    }
+    takeQuery(query);
+  }, [page]);
+
+  return (
+    <>
+      <ThemeProvider theme={lightTheme ? themeLight : themeDark}>
         <Div>
-        <SearchBar
-          currentTheme={this.state.lightTheme}
-          onThemeChange={this.onThemeChange}
-          onInputChange={this.changeQuery}
-        />
-        <ImageGallery images={this.state.images} />
-        {this.state.isLoading && <Loader />}
-        {this.state.images.length > 0 &&
-        !this.state.isLoading &&
-        this.state.page * PER_PAGE < this.state.total ? (
-          <LoadMoreBtn onClick={this.loadMore} />
-        ) : (
-          ''
-        )}
+          <SearchBar
+            currentTheme={lightTheme}
+            onThemeChange={onThemeChange}
+            onInputChange={changeQuery}
+          />
+          <ImageGallery images={images} />
+
+          {images.length > 0 && !isLoading && page * PER_PAGE < total ? (
+            <LoadMoreBtn onClick={loadMore} />
+          ) : (
+            isLoading && <Loader />
+          )}
         </Div>
-        </ThemeProvider>
-      </>
-    );
-  }
+      </ThemeProvider>
+    </>
+  );
 }
 
 export default App;
