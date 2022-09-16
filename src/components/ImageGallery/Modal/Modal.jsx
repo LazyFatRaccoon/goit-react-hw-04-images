@@ -38,7 +38,7 @@ function Modal({images, imageIdx, onCloseModal}) {
 Modal.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      largeImageURL: PropTypes.string,
+      largeImageURL: PropTypes.string.isRequired,
     })
   ),
   imageIdx: PropTypes.number.isRequired,

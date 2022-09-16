@@ -67,8 +67,6 @@ function App() {
     });
   };
 
-  
-
   const loadMore = () => {
     console.log('load button pushed');
     setPage(prevState => prevState + 1);
@@ -78,8 +76,7 @@ function App() {
     setLightTheme(prevState => !prevState);
   };
 
-   const firstUpdateQuery = useRef(true);
-
+  const firstUpdateQuery = useRef(true);
 
   useEffect(() => {
     if (firstUpdateQuery.current) {
@@ -89,11 +86,7 @@ function App() {
     async function takeQuery(query) {
       try {
         setIsLoading(true);
-        const images = await API.getImages(
-          query,
-          page,
-          PER_PAGE
-        );
+        const images = await API.getImages(query, page, PER_PAGE);
         setImages(prevState => [...prevState, ...images.hits]);
         setTotal(images.total);
       } catch (err) {
@@ -101,22 +94,10 @@ function App() {
       } finally {
         setIsLoading(false);
       }
-    };
-
-    
+    }
 
     takeQuery(query);
-  
-  
   }, [query, page]);
-
-  // useEffect(() => {
-  //   if (firstUpdatePage.current) {
-  //     firstUpdatePage.current = false;
-  //     return;
-  //   }
-  //   takeQuery(query);
-  // }, [page]);
 
   return (
     <>

@@ -11,15 +11,12 @@ import { Formik, Form, ErrorMessage } from 'formik';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ToggleButton from "react-theme-toggle-button";
-import "react-theme-toggle-button/dist/index.css";
+import ToggleButton from 'react-theme-toggle-button';
+import 'react-theme-toggle-button/dist/index.css';
 
-
-
-
-const SearchBar = ({ onInputChange, onThemeChange, currentTheme }) => {
+const SearchBar = ({ onInputChange, onThemeChange }) => {
   let timeout;
-  
+
   const onChange = query => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => onInputChange(query), 750);
@@ -27,11 +24,11 @@ const SearchBar = ({ onInputChange, onThemeChange, currentTheme }) => {
 
   return (
     <SearchBarPanel>
-      { <ToggleButton  onChange={()=>onThemeChange()}/> }
+      {<ToggleButton onChange={() => onThemeChange()} />}
       <Container>
         <Formik
           initialValues={{ search: '' }}
-          onSubmit={(values) => {
+          onSubmit={values => {
             console.log(values.search);
             onInputChange(values.search);
           }}
@@ -57,7 +54,7 @@ const SearchBar = ({ onInputChange, onThemeChange, currentTheme }) => {
             onChange={e => onChange(e.currentTarget.value)}
           />
 
-          <SearchIcon/>
+          <SearchIcon />
         </Label>
       </Container>
     </SearchBarPanel>
