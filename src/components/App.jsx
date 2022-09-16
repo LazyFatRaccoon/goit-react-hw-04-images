@@ -42,17 +42,17 @@ const themeDark = {
   },
 };
 
-// function usePrevious(value) {
-//   const ref = useRef();
-//   useEffect(() => {
-//     ref.current = value;
-//   });
-//   return ref.current;
-// }
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 function App() {
   const [query, setQuery] = useState('');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [lightTheme, setLightTheme] = useState(true);
@@ -60,63 +60,63 @@ function App() {
 
   const changeQuery = query => {
     setQuery(query);
+    setPage(1);
+    setImages([]);
+    window.scrollTo({
+      top: 0,
+    });
   };
 
-  const takeQuery = async query => {
-    try {
-      console.log(3);
-      setIsLoading(true);
-      const images = await API.getImages(
-        query,
-        page === 0 ? 1 : page,
-        PER_PAGE
-      );
-      console.log(images);
-      setImages(prevState => [...prevState, ...images.hits]);
-      setTotal(images.total);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  
 
   const loadMore = () => {
     console.log('load button pushed');
-    setPage(prevState => (prevState === 0 ? 2 : prevState + 1));
+    setPage(prevState => prevState + 1);
   };
 
   const onThemeChange = () => {
     setLightTheme(prevState => !prevState);
   };
 
-  const firstUpdatePage = useRef(true);
-  const firstUpdateQuery = useRef(true);
-  // const prevPage = usePrevious(page);
-  // const prevQuery = usePrevious(query);
+   const firstUpdateQuery = useRef(true);
+
 
   useEffect(() => {
     if (firstUpdateQuery.current) {
       firstUpdateQuery.current = false;
       return;
     }
+    async function takeQuery(query) {
+      try {
+        setIsLoading(true);
+        const images = await API.getImages(
+          query,
+          page,
+          PER_PAGE
+        );
+        setImages(prevState => [...prevState, ...images.hits]);
+        setTotal(images.total);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    window.scrollTo({
-      top: 0,
-    });
+    
 
-    if (page === 1) setPage(0);
-    else setPage(1);
-    setImages([]);
-  }, [query]);
-
-  useEffect(() => {
-    if (firstUpdatePage.current) {
-      firstUpdatePage.current = false;
-      return;
-    }
     takeQuery(query);
-  }, [page]);
+  
+  
+  }, [query, page]);
+
+  // useEffect(() => {
+  //   if (firstUpdatePage.current) {
+  //     firstUpdatePage.current = false;
+  //     return;
+  //   }
+  //   takeQuery(query);
+  // }, [page]);
 
   return (
     <>
