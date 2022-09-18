@@ -63,5 +63,6 @@ const SearchBar = ({ onInputChange, onThemeChange }) => {
 
 SearchBar.propTypes = {
   onInputChange: PropTypes.func.isRequired,
+  onThemeChange: PropTypes.func.isRequired,
 };
 export default SearchBar;

@@ -58,13 +58,14 @@ function App() {
   const [lightTheme, setLightTheme] = useState(true);
   const [total, setTotal] = useState(0);
 
-  const changeQuery = query => {
-    setQuery(query);
+  const changeQuery = newQuery => {
+    if (newQuery !== query) {
+    setQuery(newQuery);
     setPage(1);
     setImages([]);
     window.scrollTo({
       top: 0,
-    });
+    });}
   };
 
   const loadMore = () => {
